@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useAuth } from "../../hooks/useAuth";
-import { Country } from "../../types/country";
+import { useCountries } from "../../hooks/useCountries";
 import { AppStackParamList } from "../../navigation/typeNavigation";
-import { axiosInstance } from "../../api/axiosInstance";
 import { logout } from "../../services/authService";
 import { homeStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
@@ -15,29 +14,8 @@ type HomeScreenProps = StackScreenProps<AppStackParamList, "Home">;
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { user } = useAuth();
-  const [countries, setCountries] = useState<Country[]>([]);
+  const { countries, loading, error } = useCountries();
   const [search, setSearch] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
-
-  useEffect(() => {
-    const loadCountries = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const response = await axiosInstance.get<Country[]>(
-          "/all?fields=name,flags,capital,region,population,currencies"
-        );
-        setCountries(response.data);
-      } catch {
-        setError("No se pudieron cargar los paises");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCountries();
-  }, []);
 
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(search.trim().toLowerCase())
@@ -93,7 +71,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         renderItem={({ item }) => (
           <CountryCard
             country={item}
-            onPress={() => navigation.navigate("Detail", { country: item })}
+            onPress={() => navigation.navigate("Detail", { code: item.cca3 })}
           />
         )}
         ListEmptyComponent={

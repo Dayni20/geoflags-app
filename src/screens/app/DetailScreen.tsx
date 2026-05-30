@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Country } from "../../types/country";
+import { Country } from "../../types/api";
 import { AppStackParamList } from "../../navigation/typeNavigation";
-import { detailStyles, cardStyles } from "../../styles/appStyle";
+import { useCountryDetail } from "../../hooks/useCountries";
+import { detailStyles } from "../../styles/appStyle";
+import { LoadingSpinner } from "../../components/common/LoadingSpinner";
 
 type DetailScreenProps = StackScreenProps<AppStackParamList, "Detail">;
+
+const DEFAULT_FLAG_URL =
+  "https://mcstifzdbsbebrkcrcaa.supabase.co/storage/v1/object/public/flags/default-flag.png";
 
 const getCurrencies = (country: Country): string => {
   if (!country.currencies) return "N/A";
@@ -18,25 +23,32 @@ const getCurrencies = (country: Country): string => {
 };
 
 export const DetailScreen = ({ route }: DetailScreenProps) => {
-  const { country } = route.params;
+  const { code } = route.params;
+  const { country, loading, error } = useCountryDetail(code);
   const [imageError, setImageError] = useState<boolean>(false);
+
+  if (loading) {
+    return <LoadingSpinner message="Cargando pais..." />;
+  }
+
+  if (error || !country) {
+    return (
+      <View style={detailStyles.errorContainer}>
+        <Text style={detailStyles.errorText}>{error || "Pais no encontrado"}</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
       style={detailStyles.container}
       contentContainerStyle={detailStyles.content}
     >
-      {imageError ? (
-        <View style={detailStyles.flagFallback}>
-          <Text style={cardStyles.badgeText}>Sin imagen</Text>
-        </View>
-      ) : (
-        <Image
-          source={{ uri: country.flags.png }}
-          style={detailStyles.flag}
-          onError={() => setImageError(true)}
-        />
-      )}
+      <Image
+        source={{ uri: imageError ? DEFAULT_FLAG_URL : country.flags.png }}
+        style={detailStyles.flag}
+        onError={() => setImageError(true)}
+      />
 
       <View style={detailStyles.divider} />
 

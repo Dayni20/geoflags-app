@@ -30,8 +30,8 @@ const AppStack = () => {
       <Stack.Screen
         name="Detail"
         component={DetailScreen}
-        options={({ route }) => ({
-          title: route.params.country.name.common,
+        options={() => ({
+          title: "Detalle del pais",
           headerShown: true,
         })}
       />
