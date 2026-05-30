@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { Country } from "../../types/country";
 import { AppStackParamList } from "../../navigation/typeNavigation";
 import { homeStyles } from "../../styles/appStyle";
@@ -15,7 +15,7 @@ import { LoadingSpinner } from "../../components/common/LoadingSpinner";
 type HomeScreenProps = StackScreenProps<AppStackParamList, "Home">;
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [countries, setCountries] = useState<Country[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
