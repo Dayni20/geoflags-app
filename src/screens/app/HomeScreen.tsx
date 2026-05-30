@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
-import { signOut } from "firebase/auth";
-import { auth } from "../../config/firebase";
 import { useAuth } from "../../hooks/useAuth";
 import { Country } from "../../types/country";
 import { AppStackParamList } from "../../navigation/typeNavigation";
+import { logout } from "../../services/authService";
 import { homeStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
 import { CountryCard } from "../../components/ui/Card";
@@ -45,8 +44,11 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
     country.name.common.toLowerCase().includes(search.trim().toLowerCase())
   );
 
-  const handleLogout = async () => {
-    await signOut(auth);
+  const handleLogout = () => {
+    Alert.alert("Cerrar sesion", "Estas seguro?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Salir", style: "destructive", onPress: () => logout() },
+    ]);
   };
 
   if (loading) {
