@@ -6,6 +6,7 @@ import {
   TextInputProps,
   TouchableOpacity,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { inputStyles } from '../../styles/appStyle';
 
 interface InputProps extends TextInputProps {
@@ -37,7 +38,11 @@ export const Input = ({
             style={inputStyles.eyeIcon}
             onPress={() => setShowPassword(!showPassword)}
           >
-            <Text style={inputStyles.eyeText}>{showPassword ? 'Ocultar' : 'Ver'}</Text>
+            <Ionicons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={22}
+              color="#718096"
+            />
           </TouchableOpacity>
         )}
       </View>

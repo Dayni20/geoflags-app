@@ -73,7 +73,8 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={loginStyles.header}>
-          <Text style={loginStyles.title}>GeoFlags</Text>
+          <Text style={loginStyles.title}>GeoFlags🗺️📍🌏</Text>
+          <Text style={loginStyles.subtitle}>Obten informacion sobre los paises</Text>
           <Text style={loginStyles.subtitle}>Inicia sesion para continuar</Text>
         </View>
 

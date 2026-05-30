@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const loginStyles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#F7FAFC",
+    backgroundColor: "#d4f0e2",
     padding: 24,
     justifyContent: "center",
   },
@@ -12,7 +12,7 @@ export const loginStyles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: "800", color: "#1A202C" },
   subtitle: { fontSize: 16, color: "#718096", marginTop: 4 },
   form: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#edf3f4",
     borderRadius: 20,
     padding: 24,
     shadowColor: "#000",
@@ -30,7 +30,7 @@ export const loginStyles = StyleSheet.create({
 export const registerStyles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#F7FAFC",
+    backgroundColor: "#d4f0e2",
     padding: 24,
     justifyContent: "center",
   },
@@ -55,14 +55,14 @@ export const registerStyles = StyleSheet.create({
 });
 
 export const homeStyles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F7FAFC" },
+  container: { flex: 1, backgroundColor: "#d4f0e2" },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
     paddingTop:73,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#d4f0e2",
     borderBottomWidth: 1,
     borderBottomColor: "#E2E8F0",
   },
@@ -96,7 +96,7 @@ export const homeStyles = StyleSheet.create({
 });
 
 export const detailStyles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F7FAFC" },
+  container: { flex: 1, backgroundColor: "#d4f0e2" },
   content: { padding: 24 },
   flag: {
     width: "100%",
