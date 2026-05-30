@@ -12,13 +12,16 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { RegisterForm } from "../../types/auth";
 import { AuthStackParamList } from "../../navigation/typeNavigation";
+import {
+  isValidEmail,
+  isValidPassword,
+  passwordsMatch,
+} from "../../utils/validators";
 import { registerStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 
 type RegisterScreenProps = StackScreenProps<AuthStackParamList, "Register">;
-
-const isValidEmail = (email: string): boolean => /\S+@\S+\.\S+/.test(email);
 
 export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [emailError, setEmailError] = useState("");
@@ -47,12 +50,12 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       valid = false;
     }
 
-    if (registerForm.password.length < 6) {
+    if (!isValidPassword(registerForm.password)) {
       setPasswordError("Minimo 6 caracteres");
       valid = false;
     }
 
-    if (registerForm.password !== registerForm.confirmPassword) {
+    if (!passwordsMatch(registerForm.password, registerForm.confirmPassword)) {
       setConfirmError("Las contrasenas no coinciden");
       valid = false;
     }

@@ -12,13 +12,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { LoginForm } from "../../types/auth";
 import { AuthStackParamList } from "../../navigation/typeNavigation";
+import { isValidEmail, isValidPassword } from "../../utils/validators";
 import { loginStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 
 type LoginScreenProps = StackScreenProps<AuthStackParamList, "Login">;
-
-const isValidEmail = (email: string): boolean => /\S+@\S+\.\S+/.test(email);
 
 export const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [emailError, setEmailError] = useState("");
@@ -44,7 +43,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
       valid = false;
     }
 
-    if (loginForm.password.length < 6) {
+    if (!isValidPassword(loginForm.password)) {
       setPasswordError("La contrasena debe tener al menos 6 caracteres");
       valid = false;
     }
