@@ -102,7 +102,7 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
         <View style={registerStyles.form}>
           <Input
-            label="Correo electronico"
+            label="Correo electrónico"
             placeholder="ejemplo@correo.com"
             value={registerForm.email}
             onChangeText={(value) => handleInputChange("email", value)}
@@ -111,7 +111,7 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             error={emailError}
           />
           <Input
-            label="Contrasena"
+            label="Contraseña"
             placeholder="Minimo 6 caracteres"
             value={registerForm.password}
             onChangeText={(value) => handleInputChange("password", value)}
@@ -119,8 +119,8 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             error={passwordError}
           />
           <Input
-            label="Confirmar contrasena"
-            placeholder="Repite tu contrasena"
+            label="Confirmar contraseña"
+            placeholder="Repite tu contraseña"
             value={registerForm.confirmPassword}
             onChangeText={(value) =>
               handleInputChange("confirmPassword", value)
