@@ -17,9 +17,9 @@ type HomeScreenProps = StackScreenProps<AppStackParamList, "Home">;
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { user } = useAuth();
   const [countries, setCountries] = useState<Country[]>([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const loadCountries = async () => {

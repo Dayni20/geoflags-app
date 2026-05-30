@@ -8,10 +8,10 @@ import {
   Platform,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { FirebaseError } from "firebase/app";
 import { RegisterForm } from "../../types/auth";
 import { AuthStackParamList } from "../../navigation/typeNavigation";
+import { registerWithEmail } from "../../services/authService";
 import {
   isValidEmail,
   isValidPassword,
@@ -24,10 +24,10 @@ import { Button } from "../../components/ui/Button";
 type RegisterScreenProps = StackScreenProps<AuthStackParamList, "Register">;
 
 export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmError, setConfirmError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmError, setConfirmError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [registerForm, setRegisterForm] = useState<RegisterForm>({
     email: "",
@@ -62,19 +62,25 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
     return valid;
   };
-
   const handleRegister = async () => {
     if (!validate()) return;
 
     try {
       setLoading(true);
-      await createUserWithEmailAndPassword(
-        auth,
-        registerForm.email.trim(),
-        registerForm.password
-      );
-    } catch {
-      Alert.alert("Error", "No se pudo registrar el usuario");
+      await registerWithEmail({
+        email: registerForm.email,
+        password: registerForm.password,
+        confirmPassword: registerForm.confirmPassword,
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const msg =
+          error.code === "auth/email-already-in-use"
+            ? "Este email ya esta registrado"
+            : "Error al registrarse. Intenta mas tarde";
+
+        Alert.alert("Error", msg);
+      }
     } finally {
       setLoading(false);
     }

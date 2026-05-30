@@ -19,7 +19,7 @@ const getCurrencies = (country: Country): string => {
 
 export const DetailScreen = ({ route }: DetailScreenProps) => {
   const { country } = route.params;
-  const [imageError, setImageError] = useState(false);
+  const [imageError, setImageError] = useState<boolean>(false);
 
   return (
     <ScrollView

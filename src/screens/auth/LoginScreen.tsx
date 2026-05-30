@@ -8,10 +8,9 @@ import {
   Platform,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
 import { LoginForm } from "../../types/auth";
 import { AuthStackParamList } from "../../navigation/typeNavigation";
+import { loginWithEmail } from "../../services/authService";
 import { isValidEmail, isValidPassword } from "../../utils/validators";
 import { loginStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
@@ -20,9 +19,9 @@ import { Button } from "../../components/ui/Button";
 type LoginScreenProps = StackScreenProps<AuthStackParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [loginForm, setLoginForm] = useState<LoginForm>({
     email: "",
@@ -56,11 +55,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
     try {
       setLoading(true);
-      await signInWithEmailAndPassword(
-        auth,
-        loginForm.email.trim(),
-        loginForm.password
-      );
+      await loginWithEmail(loginForm);
     } catch {
       Alert.alert("Error", "No se pudo iniciar sesion");
     } finally {
