@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
 import { Country } from "../../types/country";
 import { AppStackParamList } from "../../navigation/typeNavigation";
+import { axiosInstance } from "../../api/axiosInstance";
 import { logout } from "../../services/authService";
 import { homeStyles } from "../../styles/appStyle";
 import { Input } from "../../components/ui/Input";
@@ -25,9 +25,8 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
       try {
         setLoading(true);
         setError("");
-        const response = await axios.get<Country[]>(
-          "https://restcountries.com/v3.1/all?fields=name,flags,capital,region,population,currencies",
-          { timeout: 10000 }
+        const response = await axiosInstance.get<Country[]>(
+          "/all?fields=name,flags,capital,region,population,currencies"
         );
         setCountries(response.data);
       } catch {

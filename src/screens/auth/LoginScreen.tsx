@@ -8,6 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
+import { FirebaseError } from "firebase/app";
 import { LoginForm } from "../../types/auth";
 import { AuthStackParamList } from "../../navigation/typeNavigation";
 import { loginWithEmail } from "../../services/authService";
@@ -56,8 +57,15 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
     try {
       setLoading(true);
       await loginWithEmail(loginForm);
-    } catch {
-      Alert.alert("Error", "No se pudo iniciar sesion");
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const msg =
+          error.code === "auth/invalid-credential"
+            ? "Email o contraseña incorrectos"
+            : "Error al iniciar sesion. Intenta mas tarde";
+
+        Alert.alert("Error", msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -81,7 +89,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <View style={loginStyles.form}>
           <Input
             label="Correo electronico"
-            placeholder="ejemplo@correo.com"
+            placeholder="nombre@correo.com"
             value={loginForm.email}
             onChangeText={(value) => handleInputChange("email", value)}
             keyboardType="email-address"
@@ -89,7 +97,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
             error={emailError}
           />
           <Input
-            label="Contrasena"
+            label="Contraseña"
             placeholder="Minimo 6 caracteres"
             value={loginForm.password}
             onChangeText={(value) => handleInputChange("password", value)}
