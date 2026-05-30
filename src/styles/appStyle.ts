@@ -98,6 +98,21 @@ export const homeStyles = StyleSheet.create({
 export const detailStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F7FAFC" },
   content: { padding: 24 },
+  flag: {
+    width: "100%",
+    height: 180,
+    borderRadius: 12,
+    resizeMode: "contain",
+    backgroundColor: "#FFFFFF",
+  },
+  flagFallback: {
+    width: "100%",
+    height: 180,
+    borderRadius: 12,
+    backgroundColor: "#EEF2FF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   meta: {
     flexDirection: "row",
     justifyContent: "space-between",
